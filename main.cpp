@@ -87,12 +87,28 @@ int main()
     cout << setprecision(15); // todo: move inot the Calculator init
 
 
-    string input = "";
+    string x = "";
+    string formula = "";
+    string y = "";
 
-    while (cin >> input && input != EXIST_INPUT) { // todo make regex
+    while ( true ) 
+    { 
 
-        calculatorPointer->run(input);
-        std::cout << "The result is " << calculatorPointer->getResult();
+        cin >> x >> formula >> y;
+
+        if (x == EXIST_INPUT) { // todo make regex
+            break;
+        }
+
+        try {
+            calculatorPointer->run(x, formula, y);
+            std::cout << "The result is " << calculatorPointer->getResult();
+            
+        }
+        catch (const std::invalid_argument& ia) {
+            std::cerr << "Invalid argument: " << ia.what() << '\n';
+        } 
+
         calculator.printPrompt();
 
     }

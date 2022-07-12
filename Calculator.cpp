@@ -29,119 +29,78 @@ bool inArray(const std::string &value, const std::vector<std::string> &array)
 // ----------------------
 
 /// Calculator Methods
-void Calculator::run(const std::string& input)
+void Calculator::run(const std::string& x, const std::string& formula, const std::string& y)
 {
-    // -------------------
-    // CONSTANTS   TODO: Check how to do it properly in c++
-    // -------------------
-    const std::vector<std::string> INPUTS_ADD{ "+", "add", "addition", "sum"};
-    const std::vector<std::string> INPUTS_SUBTRACT{"-", "sub", "subtraction", "minus"};
-    const std::vector<std::string> INPUTS_DIVIDE{"/", "divide", "div"};
-    const std::vector<std::string> INPUTS_MULTIPLY{"*", "mul", "multiply", "times"};
-    const std::vector<std::string> INPUTS_SQRT{"sqrt"};
-    const std::vector<std::string> INPUTS_SETMEM{"setmem"};
-    const std::vector<std::string> INPUTS_PRINTMEM{"printmem"};
+    int _operation = this->routeFormula(formula);
 
+    switch (_operation)
+    {
+        case 1:
+            result = add(x, y);
+            /* code */
+            break;
+        case 2:
+            result = subtract(x, y);
+            /* code */
+            break;
+        case 3:
+            result =  divide(x, y);
+            /* code */
+            break;
+        case 4:
+            result = multiply(x, y);
+            /* code */
+            break;
+        case 5:
+            result = square(x, y);
+            /* code */
+            break;   
+        case -1:
+        default:
+            std::cout << "Invalid Input\n";
+            break;
+    }
 
-    if (inArray(input, INPUTS_ADD))
-    {
-        result = add();
-    }
-    else if (inArray(input, INPUTS_SUBTRACT))
-    {
-        subtract();
-    }
-    else if (inArray(input, INPUTS_SUBTRACT))
-    {
-        divide();
-    }
-    else if (inArray(input, INPUTS_DIVIDE))
-    {
-        multiply();
-    }
-    else if (inArray(input, INPUTS_MULTIPLY))
-    {
-        sqrt();
-    }
-    else if (inArray(input, INPUTS_SQRT))
-    {
-        square();
-    }
-    else if (inArray(input, INPUTS_SETMEM))
-    {
-        setMem();
-    }
-    else if (inArray(input, INPUTS_PRINTMEM))
-    {
-        printMem();
-    } 
-    else 
-    {
-        std::cout << "Invalid Input\n";
-    }
+    return;
+
 }
 
-double Calculator::add()
+double Calculator::add(std::string x, std::string y)
 {
-    std::string x;
-    std::string y;
-
-    std::cout << "$ ";
-    std::cin >> x;
-    std::cout << "+ \n";
-    std::cin >> y;
-
-    result = parseInput(x) + parseInput(y);
+    result = parseFloat(x) + parseFloat(y);
     return result;
 
 }
-void Calculator::subtract()
+double Calculator::subtract(std::string x, std::string y)
 {
-    std::string x;
-    std::string y;
-    std::cout << "subtract\n";
+    result = parseFloat(x) - parseFloat(y);
+    return result;
 }
 
-void Calculator::multiply()
+double Calculator::multiply(std::string x, std::string y)
 {
-    std::string x;
-    std::string y;
-    std::cout << "multiply\n";
+    result = parseFloat(x) * parseFloat(y);
+    return result;
 }
 
-void Calculator::divide()
+double Calculator::divide(std::string x, std::string y)
 {
-    std::string x;
-    std::string y;
-    std::cout << "divide\n";
+    result = parseFloat(x) / parseFloat(y);
+    return result;
 }
 
-void Calculator::square()
+double Calculator::square(std::string x, std::string y)
 {
-    std::string x;
-    std::string y;
+
     std::cout << "square\n";
+    return result;
 }
 
-void Calculator::sqrt()
+double Calculator::sqrt(std::string x, std::string y)
 {
-    std::string x;
-    std::string y;
+
     std::cout << "sqrt\n";
-}
-
-void Calculator::setMem()
-{
-    std::string x;
-    std::string y;
-    std::cout << "setMem\n";
-}
-
-void Calculator::printMem() const
-{
-    std::string x;
-    std::string y;
-    std::cout << "TprintMemODO" << std::endl;
+    return result;
 }
 
 
@@ -153,25 +112,54 @@ void Calculator::printPrompt()
 }
 
 
-/// subs in number value when strings result or mem are entered
-double Calculator::parseInput(const std::string& input) const
+/**
+ * @brief Conversts a string into a double
+ * 
+ * @param value 
+ * @return double 
+ */
+double Calculator::parseFloat(const std::string& value) const
 {
-    if (input == "result")
-    {
-        return result;
-    }
-    else if (input == "mem")
-    {
-        return mem;
-    }
-    else
-    {
-        return std::stod(input);
-    }
+    return std::stod(value);
 }
 
 
 double Calculator::getResult()
 {
     return result;
+}
+
+int Calculator::routeFormula(const std::string formula)
+{
+
+ // -------------------
+    // CONSTANTS   TODO: Check how to do it properly in c++
+    // -------------------
+    const std::vector<std::string> INPUTS_ADD{ "+", "add", "addition", "sum"};
+    const std::vector<std::string> INPUTS_SUBTRACT{"-", "sub", "subtraction", "minus"};
+    const std::vector<std::string> INPUTS_DIVIDE{"/", "divide", "div"};
+    const std::vector<std::string> INPUTS_MULTIPLY{"*", "mul", "multiply", "times"};
+    const std::vector<std::string> INPUTS_SQRT{"sqrt"};
+    if (inArray(formula, INPUTS_ADD))
+    {
+        return 1;
+    }
+    else if (inArray(formula, INPUTS_SUBTRACT))
+    {
+        return 2;
+    } 
+    else if (inArray(formula, INPUTS_DIVIDE))
+    {
+        return 3;
+    }
+    else if (inArray(formula, INPUTS_MULTIPLY))
+    {
+        return 4;
+    }
+    else if (inArray(formula, INPUTS_SQRT))
+    { 
+        return 5;
+    } 
+    
+    return -1;
 }
